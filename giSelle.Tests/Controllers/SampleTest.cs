@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace giSelle.Tests.Controllers
 {
     [TestClass]
-    public class UnitTest1
+    public class SampleTest
     {
         [TestMethod]
         public void TestMethod1()
