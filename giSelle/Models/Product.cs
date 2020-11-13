@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace giSelle.Models
 {
     public class Product
     {
+        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -28,5 +30,9 @@ namespace giSelle.Models
         // TODO: photo
 
         public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<Cart> Carts { get; set; }
+
+        public IEnumerable<SelectListItem> Categ { get; set; }
+
     }
 }
