@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -38,6 +39,7 @@ namespace giSelle.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
+            ViewBag.AllCategories = db.Categories.ToList();
             return View();
         }
 
@@ -46,16 +48,27 @@ namespace giSelle.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,SKU,HasQuantity,Quantity,PriceInMU,Currency")] Product product)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,SKU,HasQuantity,Quantity,PriceInMU,Currency,CategoryIds")] CreateProductViewModel productView)
         {
             if (ModelState.IsValid)
             {
-                db.Products.Add(product);
+                var associatedCategs = db.Categories.Where(c => productView.CategoryIds.Contains(c.Id))
+                                                    .ToArray();
+                var productData = MapperContext.mapper.Map<CreateProductViewModel, Product>(productView);
+
+                foreach (var category in associatedCategs)
+                {
+                    // TODO: why this does not work???
+                    //productData.Categories.Add(category);
+                }
+
+                db.Products.Add(productData);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(product);
+            ViewBag.AllCategories = db.Categories.ToList();
+            return View();
         }
 
         // GET: Products/Edit/5

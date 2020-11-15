@@ -1,6 +1,5 @@
 namespace giSelle.Models
 {
-    using System;
     using System.Data.Entity;
     using System.Linq;
 
@@ -22,7 +21,7 @@ namespace giSelle.Models
         public virtual DbSet<InvoiceLine> InvoiceLines { get; set; }
     }
 
-    public class AppDbContextInitializer : DropCreateDatabaseAlways<AppDbContext>
+    public class AppDbContextInitializer : DropCreateDatabaseIfModelChanges<AppDbContext>
     {
         protected override void Seed(AppDbContext context)
         {
