@@ -31,8 +31,5 @@ namespace giSelle.Models
 
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Cart> Carts { get; set; }
-
-        public IEnumerable<SelectListItem> Categ { get; set; }
-
     }
 }

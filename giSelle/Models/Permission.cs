@@ -8,6 +8,7 @@ namespace giSelle.Models
 {
     public class Permission
     {
+        [Key]
         public int Id { get; set; }
 
         [Required]
