@@ -14,9 +14,9 @@ namespace giSelle.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Name is mandatory.")]
         [Index(IsUnique = true)]
-        [StringLength(256)]
+        [StringLength(256, ErrorMessage = "Name is too long.")]
         public string Name { get; set; }
 
         virtual public ICollection<Product> Products { get; set; }
