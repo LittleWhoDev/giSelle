@@ -67,6 +67,14 @@
             @Html.DisplayFor(model => model.Currency)
         </dd>
 
+        <dd>
+            @foreach (var cateogry in Model.Categories)
+            {
+                <span>
+                    @Html.ActionLink(cateogry.Name, "Details", "Categories", new { id = cateogry.Id }, null)
+                </span>
+            }
+        </dd>
     </dl>
 </div>
 <p>

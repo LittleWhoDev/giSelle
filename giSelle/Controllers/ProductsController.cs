@@ -13,7 +13,7 @@ namespace giSelle.Controllers
 {
     public class ProductsController : Controller
     {
-        private AppDbContext db = new AppDbContext();
+        private DomainDbContext db = new DomainDbContext();
 
         // GET: Products
         public ActionResult Index()
@@ -54,9 +54,8 @@ namespace giSelle.Controllers
             {
                 var productData = MapperContext.mapper.Map<CreateProductViewModel, Product>(productView);
 
-                var associatedCategs = db.Categories.Where(c => productView.CategoryIds.Contains(c.Id))
-                                                    .ToArray();
-                productData.Categories.Concat(associatedCategs);
+                var associatedCategories = db.Categories.Where(c => productView.CategoryIds.Contains(c.Id)).ToList();
+                associatedCategories.ForEach(categoryObject => productData.Categories.Add(categoryObject));
 
                 db.Products.Add(productData);
                 db.SaveChanges();
@@ -79,7 +78,14 @@ namespace giSelle.Controllers
             {
                 return HttpNotFound();
             }
-            return View(product);
+
+            var productView = MapperContext.mapper.Map<Product, EditProductViewModel>(product);
+            productView.CategoryIds = new int[product.Categories.Count()];
+            product.Categories.Select((c, index) => new { id = c.Id, index }).ToList()
+                .ForEach(pair => productView.CategoryIds[pair.index] = pair.id);
+
+            ViewBag.AllCategories = db.Categories.ToList();
+            return View(productView);
         }
 
         // POST: Products/Edit/5
@@ -87,15 +93,29 @@ namespace giSelle.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,SKU,HasQuantity,Quantity,PriceInMU,Currency")] Product product)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,SKU,HasQuantity,Quantity,PriceInMU,Currency,CategoryIds")] EditProductViewModel productView)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(product).State = EntityState.Modified;
+                var productData = MapperContext.mapper.Map<EditProductViewModel, Product>(productView);
+                db.Products.Attach(productData);
+                db.Entry(productData).Collection(p => p.Categories).Load();
+
+                if (productView.CategoryIds == null) productView.CategoryIds = new int[0];
+                var newCategories = db.Categories.Where(c => productView.CategoryIds.Contains(c.Id)).ToList();
+                var categoriesToAdd = newCategories.Except(productData.Categories).ToList();
+                var categoriesToRemove = productData.Categories.Except(newCategories).ToList();
+
+                categoriesToAdd.ForEach(category => productData.Categories.Add(category));
+                categoriesToRemove.ForEach(category => productData.Categories.Remove(category));
+
+                db.Entry(productData).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(product);
+
+            ViewBag.AllCategories = db.Categories.ToList();
+            return View(productView);
         }
 
         // GET: Products/Delete/5

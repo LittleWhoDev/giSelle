@@ -24,10 +24,9 @@ namespace giSelle.Models
         public string Description { get; set; }
         public string SKU { get; set; }
         
-        [Required]
         public bool HasQuantity { get; set; }
-
         public int Quantity { get; set; }
+
         // Price expressed in monetary units (smallest possible)
         // For example 100.23 RON means a price of 10023 BANI, BANI being the smallest MU possible
         [Required]
@@ -49,9 +48,7 @@ namespace giSelle.Models
         public string Description { get; set; }
         public string SKU { get; set; }
 
-        [Required]
         public bool HasQuantity { get; set; }
-
         public int Quantity { get; set; }
 
         [Required]
@@ -60,5 +57,27 @@ namespace giSelle.Models
         public string Currency { get; set; }
 
         public int[] CategoryIds { get; set; }
+    }
+
+    public class EditProductViewModel
+    {
+        [Required]
+        public int Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+        public string SKU { get; set; }
+
+        public bool HasQuantity { get; set; }
+        public int Quantity { get; set; }
+
+        [Required]
+        public int PriceInMU { get; set; }
+        [Required]
+        public string Currency { get; set; }
+
+        public int[] CategoryIds { get; set; } 
     }
 }

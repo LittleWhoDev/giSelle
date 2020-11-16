@@ -15,6 +15,8 @@ namespace giSelle.Models
             config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<CreateProductViewModel, Product>();
+                cfg.CreateMap<Product, EditProductViewModel>();
+                cfg.CreateMap<EditProductViewModel, Product>();
             });
 
             mapper = config.CreateMapper();
