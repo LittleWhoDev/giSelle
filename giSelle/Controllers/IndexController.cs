@@ -7,7 +7,7 @@ namespace giSelle.Controllers
 {
     public class IndexController : Controller
     {
-        private readonly AppDbContext db = new AppDbContext();
+        private readonly DomainDbContext db = new DomainDbContext();
 
         // GET: Index
         public ActionResult Index()

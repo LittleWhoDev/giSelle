@@ -12,7 +12,7 @@ namespace giSelle.Controllers
 {
     public class CategoriesController : Controller
     {
-        private AppDbContext db = new AppDbContext();
+        private DomainDbContext db = new DomainDbContext();
 
         // GET: Categories
         public ActionResult Index()

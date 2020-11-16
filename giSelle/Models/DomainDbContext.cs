@@ -3,12 +3,12 @@ namespace giSelle.Models
     using System.Data.Entity;
     using System.Linq;
 
-    public class AppDbContext : DbContext
+    public class DomainDbContext : DbContext
     {
-        public AppDbContext()
-            : base("name=AppContext")
+        public DomainDbContext()
+            : base("name=DomainContext")
         {
-            Database.SetInitializer(new AppDbContextInitializer());
+            Database.SetInitializer(new DomainDbContextInitializer());
         }
 
         public virtual DbSet<User> Users { get; set; }
@@ -21,9 +21,9 @@ namespace giSelle.Models
         public virtual DbSet<InvoiceLine> InvoiceLines { get; set; }
     }
 
-    public class AppDbContextInitializer : DropCreateDatabaseIfModelChanges<AppDbContext>
+    public class DomainDbContextInitializer : DropCreateDatabaseIfModelChanges<DomainDbContext>
     {
-        protected override void Seed(AppDbContext context)
+        protected override void Seed(DomainDbContext context)
         {
             // TODO: remove sample data
             var defaultRole = context.Roles.Add(new Role() { Name = "Default Role"});
