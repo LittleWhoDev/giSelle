@@ -9,6 +9,8 @@ namespace giSelle.Models
 {
     public class Cart
     {
+        public Cart() => Products = new HashSet<Product>();
+
         [Key]
         [ForeignKey("User")]
         public int Id { get; set; }

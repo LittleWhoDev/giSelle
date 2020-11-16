@@ -9,6 +9,12 @@ namespace giSelle.Models
 {
     public class Product
     {
+        public Product()
+        {
+            Carts = new HashSet<Cart>();
+            Categories = new HashSet<Category>();
+        }
+
         [Key]
         public int Id { get; set; }
 

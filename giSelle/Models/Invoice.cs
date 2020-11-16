@@ -9,6 +9,8 @@ namespace giSelle.Models
 {
     public class Invoice
     {
+        public Invoice() => Lines = new HashSet<InvoiceLine>();
+
         [Key]
         [Column(Order = 1)]
         public int Id { get; set; }

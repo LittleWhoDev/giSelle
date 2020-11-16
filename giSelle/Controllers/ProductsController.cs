@@ -52,15 +52,11 @@ namespace giSelle.Controllers
         {
             if (ModelState.IsValid)
             {
-                var associatedCategs = db.Categories.Where(c => productView.CategoryIds.Contains(c.Id))
-                                                    .ToArray();
                 var productData = MapperContext.mapper.Map<CreateProductViewModel, Product>(productView);
 
-                foreach (var category in associatedCategs)
-                {
-                    // TODO: why this does not work???
-                    //productData.Categories.Add(category);
-                }
+                var associatedCategs = db.Categories.Where(c => productView.CategoryIds.Contains(c.Id))
+                                                    .ToArray();
+                productData.Categories.Concat(associatedCategs);
 
                 db.Products.Add(productData);
                 db.SaveChanges();

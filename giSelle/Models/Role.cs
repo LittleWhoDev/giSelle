@@ -9,6 +9,8 @@ namespace giSelle.Models
 {
     public class Role
     {
+        public Role() => Permissions = new HashSet<Permission>();
+
         [Key]
         public int Id { get; set; }
 
