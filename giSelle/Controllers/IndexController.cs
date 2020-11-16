@@ -12,14 +12,12 @@ namespace giSelle.Controllers
         // GET: Index
         public ActionResult Index()
         {
-            var u = from usr in db.Users select usr;
-            var k = u.ToArray();
-            foreach (var i in k)
-            {
-                Debug.WriteLine("{0} - {1}", i.Name, i.RoleId);
-            }
-
             return View();
+        }
+
+        public ActionResult Home()
+        {
+            return RedirectToAction("Index");
         }
     }
 }
